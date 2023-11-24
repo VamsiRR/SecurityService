@@ -5,10 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
-import org.vamsi.SecurityService.dto.UserCredentials;
 
-import javax.crypto.SecretKey;
-import java.awt.*;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;

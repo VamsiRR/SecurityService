@@ -7,14 +7,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 public class SecurityServiceConfig {
 
     @Bean
     public UserDetailsService userDetailsService()
     {
-        UserDetailsService root = new U
+        return null;
+
     }
 
     @Bean
