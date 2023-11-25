@@ -7,15 +7,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.vamsi.securityservice.dto.AuthRequest;
 import org.vamsi.securityservice.dto.UserEntity;
 import org.vamsi.securityservice.dto.UserRequest;
 import org.vamsi.securityservice.service.JWTService;
 import org.vamsi.securityservice.service.SecurityService;
 
 @RestController
+@RequestMapping("/security")
 public class Controller {
 
     private final Logger logger = LoggerFactory.getLogger(Controller.class);
@@ -37,27 +37,16 @@ public class Controller {
     }
 
     @PostMapping("/login")
-    public void login(UserRequest request)
+    public String login(AuthRequest authRequest)
     {
-
+        logger.info("Request received to generate token for username: " + authRequest.email());
+        return securityService.generateToken(authRequest);
     }
 
-    @PostMapping("/generate")
-    public String generateToken(@RequestBody UserRequest userRequest)
+    @GetMapping("/refresh")
+    public String refreshToken(String currentToken)
     {
-        logger.info("Request received to generate token for username: " + userRequest.email());
-
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userRequest.email(), userRequest.password()));
-
-        if (authentication.isAuthenticated())
-        {
-            logger.info("user authenticated. Generating token for username: " + userRequest.email());
-            return jwtService.generateToken(userRequest.email());
-        }
-        else
-        {
-            throw new UsernameNotFoundException("Invalid user!");
-        }
+        return null;
     }
 
     @PostMapping("/validate")

@@ -1,5 +1,6 @@
 package org.vamsi.securityservice.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,15 +11,21 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.vamsi.securityservice.service.AuthFilter;
 import org.vamsi.securityservice.service.UserEntityUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityServiceConfig {
+
+    @Autowired
+    private AuthFilter authFilter;
 
     @Bean
     public UserDetailsService userDetailsService()
@@ -44,6 +51,8 @@ public class SecurityServiceConfig {
 
         //Spring Boot 3.1.x
         return http.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/register", "/generate").permitAll()
                                                    .requestMatchers("").authenticated())
                 .authenticationProvider(authenticationProvider())
