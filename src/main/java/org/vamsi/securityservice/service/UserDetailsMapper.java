@@ -1,22 +1,27 @@
-package org.vamsi.SecurityService.service;
+package org.vamsi.securityservice.service;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.vamsi.SecurityService.dto.UserEntity;
+import org.vamsi.securityservice.dto.UserEntity;
 
 import java.util.Collection;
+
 @Component
-public class UserDetailsServiceMapper implements org.springframework.security.core.userdetails.UserDetails
-{
-    private final String username;
+public class UserDetailsMapper implements UserDetails {
+    private String username;
 
-    private final String password;
+    private String password;
 
-    public UserDetailsServiceMapper(UserEntity user)
-    {
+    public UserDetailsMapper() {
+
+    }
+
+    public UserDetailsMapper(UserEntity user) {
         this.username = user.getEmail();
         this.password = user.getPassword();
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

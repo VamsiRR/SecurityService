@@ -1,4 +1,4 @@
-package org.vamsi.SecurityService.api;
+package org.vamsi.securityservice.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.vamsi.SecurityService.dto.UserEntity;
-import org.vamsi.SecurityService.dto.UserRequest;
-import org.vamsi.SecurityService.service.SecurityService;
-import org.vamsi.SecurityService.service.JWTService;
+import org.vamsi.securityservice.dto.UserEntity;
+import org.vamsi.securityservice.dto.UserRequest;
+import org.vamsi.securityservice.service.JWTService;
+import org.vamsi.securityservice.service.SecurityService;
 
 @RestController
 public class Controller {
@@ -27,9 +27,6 @@ public class Controller {
     private JWTService jwtService;
 
     @Autowired
-    private JWTService jwtUtil;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
@@ -39,7 +36,13 @@ public class Controller {
         securityService.registerUser(new UserEntity(request.firstName(), request.lastName(), request.email(), request.password(), "user"));
     }
 
-    @PostMapping("generate")
+    @PostMapping("/login")
+    public void login(UserRequest request)
+    {
+
+    }
+
+    @PostMapping("/generate")
     public String generateToken(@RequestBody UserRequest userRequest)
     {
         logger.info("Request received to generate token for username: " + userRequest.email());
@@ -48,6 +51,7 @@ public class Controller {
 
         if (authentication.isAuthenticated())
         {
+            logger.info("user authenticated. Generating token for username: " + userRequest.email());
             return jwtService.generateToken(userRequest.email());
         }
         else
@@ -61,23 +65,4 @@ public class Controller {
     {
         return securityService.validate(token);
     }
-
-    /**
-     *
-     *By pass this endpoint from spring security
-     */
-//    @PostMapping("/authenticate")
-//    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest)
-//    {
-//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.userName(), authRequest.password()));
-//
-//        if (authentication.isAuthenticated())
-//        {
-//            return jwtUtil.generateToken(authRequest.userName());
-//        }
-//        else
-//        {
-//            throw new UsernameNotFoundException("Invalid user!");
-//        }
-//    }
 }

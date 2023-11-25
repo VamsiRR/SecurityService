@@ -1,4 +1,4 @@
-package org.vamsi.SecurityService.dto;
+package org.vamsi.securityservice.dto;
 
 import java.io.Serializable;
 
