@@ -6,15 +6,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.vamsi.SecurityService.service.UserEntityUserDetailsService;
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SecurityServiceConfig {
 
     @Bean
     public UserDetailsService userDetailsService()
     {
-        return null;
+        return new UserEntityUserDetailsService();
 
     }
 

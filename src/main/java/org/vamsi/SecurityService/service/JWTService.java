@@ -1,18 +1,19 @@
-package org.vamsi.SecurityService.util;
+package org.vamsi.SecurityService.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
-public class JWTUtil {
+@Service
+public class JWTService {
 
     private static final String SECRET = "196f05070da54e029aed7318875d15c9dhatgskdedjhsytydhheekkshciowahffsbmluqlalaqyyuckamhhebnsqppafemaizgeh";
 
@@ -20,6 +21,10 @@ public class JWTUtil {
 
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userName);
+    }
+
+    public boolean validate(String token) {
+        return false;
     }
 
     private String createToken(Map<String, Object> claims, String userName) {
@@ -38,7 +43,5 @@ public class JWTUtil {
 
         return Keys.hmacShaKeyFor(secret);
     }
-    public boolean validate(String token) {
-        return false;
-    }
+
 }
