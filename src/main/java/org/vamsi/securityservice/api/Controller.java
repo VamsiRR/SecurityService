@@ -29,6 +29,12 @@ public class Controller {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @GetMapping("/welcome")
+    public String welcome()
+    {
+        return "Welcome";
+    }
+
     @PostMapping("/register")
     public void registerUser(@RequestBody UserRequest request)
     {

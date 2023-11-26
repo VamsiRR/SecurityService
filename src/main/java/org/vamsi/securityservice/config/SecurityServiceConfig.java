@@ -54,7 +54,7 @@ public class SecurityServiceConfig {
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/register", "/generate").permitAll()
-                                                   .requestMatchers("").authenticated())
+                                                   .requestMatchers("/welcome").authenticated())
                 .authenticationProvider(authenticationProvider())
                 .httpBasic(Customizer.withDefaults()).build();
     }

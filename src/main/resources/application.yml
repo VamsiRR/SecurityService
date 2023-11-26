@@ -11,3 +11,11 @@ spring:
     user:
       name: vamsi
       password: pwd
+  application:
+    name: SECURITY_SERVICE
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
